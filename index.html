@@ -691,7 +691,7 @@
 </a>
 
 <script>
-  (function(){
+  function atualizarStatus(){
     var d = new Date();
     var day = d.getDay(); // 0 domingo ... 6 sábado
     var minutes = d.getHours() * 60 + d.getMinutes();
@@ -700,6 +700,7 @@
     var dot = document.getElementById('status-dot');
     var text = document.getElementById('status-text');
     var isOpen = isOpenDay && minutes >= open;
+    dot.classList.remove('on', 'off');
     if (isOpen) {
       dot.classList.add('on');
       text.textContent = 'Aberto agora';
@@ -710,7 +711,9 @@
       do { proximo = (proximo + 1) % 7; } while (proximo < 3 || proximo > 6);
       text.textContent = 'Fechado agora · abre ' + dias[proximo] + ' às 18h';
     }
-  })();
+  }
+  atualizarStatus();
+  setInterval(atualizarStatus, 60000); // reconfere a cada minuto, sem precisar recarregar a página
 
   if (window.IntersectionObserver && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     document.querySelectorAll('.section-head').forEach(function(el){ el.classList.add('reveal'); });
